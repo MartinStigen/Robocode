@@ -2,6 +2,7 @@ package ninjas.hyper;
 
 import robocode.Robot;
 import robocode.ScannedRobotEvent;
+import robocode.util.Utils;
 
 import java.awt.*;
 
@@ -36,23 +37,25 @@ public class NinjasHyper extends Robot {
                 // Robot is top left
                 if (getX() < width / 2) {
                     turnRight(90 - rotation);
+                    ahead(width);
                 }
                 // Robot is top right
                 else {
-                    turnRight(90 - rotation);
-
+                    turnRight(180 - rotation);
+                    ahead(height);
                 }
             }
             // Robot is bottom half
             else {
                 // Robot is bottom left
                 if (getX() < width / 2) {
-                    turnRight(90 - rotation);
+                    turnRight(Utils.normalAbsoluteAngleDegrees(-rotation));
+                    ahead(height);
                 }
                 // Robot is bottom right
                 else {
-                    turnRight(90 - rotation);
-
+                    turnRight(270 - rotation);
+                    ahead(width);
                 }
             }
 
@@ -62,8 +65,8 @@ public class NinjasHyper extends Robot {
 
     public void onScannedRobot(ScannedRobotEvent e) {
 
-        while (getEnergy() > 0) {
-            fire(1);
-        }
+//        while (getEnergy() > 0) {
+//            fire(1);
+//        }
     }
 }
