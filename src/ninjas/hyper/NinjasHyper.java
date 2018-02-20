@@ -26,6 +26,8 @@ public class NinjasHyper extends Robot {
         width = getBattleFieldWidth();
         height = getBattleFieldHeight();
 
+        turnGunRight(90);
+
         //Game Loop
         while (true) {
 
@@ -59,14 +61,23 @@ public class NinjasHyper extends Robot {
                 }
             }
 
-            turnRight(45);
         }
     }
 
     public void onScannedRobot(ScannedRobotEvent e) {
 
-//        while (getEnergy() > 0) {
-//            fire(1);
-//        }
+        // Distance to enemy
+        final double distance = e.getDistance();
+
+        // Calculating power use
+        double power = 1;
+        if (distance < 600) {
+            fire(2);
+        }
+        else if (distance < 200) {
+            fire(3);
+        }
+
+        fire(power);
     }
 }
