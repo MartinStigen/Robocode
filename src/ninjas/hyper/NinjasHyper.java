@@ -43,6 +43,18 @@ public class NinjasHyper extends Robot {
 
                 }
             }
+            // Robot is bottom half
+            else {
+                // Robot is bottom left
+                if (getX() < width / 2) {
+                    turnRight(90 - rotation);
+                }
+                // Robot is bottom right
+                else {
+                    turnRight(90 - rotation);
+
+                }
+            }
 
             turnRight(45);
         }
