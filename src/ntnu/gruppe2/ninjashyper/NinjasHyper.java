@@ -1,5 +1,7 @@
-package ninjas.hyper;
+package ntnu.gruppe2.ninjashyper;
 
+import robocode.HitByBulletEvent;
+import robocode.HitRobotEvent;
 import robocode.Robot;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
@@ -10,12 +12,14 @@ public class NinjasHyper extends Robot {
 
     double width, height;
 
-    boolean left = true, up = true;
+    boolean clockwise = true;
 
     // Useful info
         // Rotation
             // Gun:   max 20 deg/turn
             // Radar: max 45 deg/turn
+
+
 
     @Override
     public void run() {
@@ -33,6 +37,9 @@ public class NinjasHyper extends Robot {
 
             //Getting Direction
             double rotation = getHeading();
+
+            // Set gun correct
+            turnGunRight(Utils.normalNearAbsoluteAngleDegrees(getHeading() - getGunHeading() + 90));
 
             // Robot is top half
             if (getY() > height / 2) {
@@ -61,6 +68,15 @@ public class NinjasHyper extends Robot {
                 }
             }
 
+//            if (clockwise) {
+//                turnGunRight(getHeading() + 180);
+//                clockwise = false;
+//            }
+//            else {
+//                turnGunLeft(getHeading() + 180);
+//                clockwise = true;
+//            }
+
         }
     }
 
@@ -72,12 +88,29 @@ public class NinjasHyper extends Robot {
         // Calculating power use
         double power = 1;
         if (distance < 600) {
-            fire(2);
+            power = 2;
         }
         else if (distance < 200) {
-            fire(3);
+            power = 3;
         }
 
         fire(power);
+
+//        turnGunRight(Utils.normalRelativeAngleDegrees(gunFrontDiff + e.getBearing()));
+    }
+
+    @Override
+    public void onHitByBullet(HitByBulletEvent event) {
+//        stop();
+//        super.onHitByBullet(event);
+//        double gunFrontDiff = Utils.normalAbsoluteAngleDegrees(getHeading()) - Utils.normalAbsoluteAngleDegrees(getGunHeading());
+        double gunFrontDiff = getHeading()  - getGunHeading();
+        turnGunRight(Utils.normalRelativeAngleDegrees(gunFrontDiff + event.getBearing()));
+    }
+
+    @Override
+    public void onHitRobot(HitRobotEvent event) {
+        double gunFrontDiff = getHeading()  - getGunHeading();
+        turnGunRight(Utils.normalRelativeAngleDegrees(gunFrontDiff + event.getBearing()));
     }
 }
